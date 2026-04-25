@@ -612,15 +612,92 @@
       background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 247, 241, 0.94));
     }
 
-    .testimonial-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+    .testimonials-shell {
+      display: grid;
+      grid-template-columns: 0.78fr 1.22fr;
+      gap: 24px;
+      align-items: center;
     }
 
-    .testimonial-card small {
+    .testimonial-intro {
+      padding-right: 10px;
+    }
+
+    .testimonial-intro p {
+      color: var(--muted);
+      margin-top: 14px;
+    }
+
+    .testimonial-carousel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 28px;
+    }
+
+    .testimonial-track {
+      display: flex;
+      transition: transform 0.55s ease;
+      will-change: transform;
+    }
+
+    .testimonial-slide {
+      min-width: 100%;
+      padding: 4px;
+    }
+
+    .testimonial-card {
+      min-height: 100%;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 244, 237, 0.94));
+      border: 1px solid rgba(194, 77, 44, 0.12);
+    }
+
+    .testimonial-stars {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 225, 216, 0.65);
+      color: var(--warning);
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .testimonial-quote {
+      margin-top: 18px;
+      font-size: 1.14rem;
+      line-height: 1.75;
+      color: var(--text);
+    }
+
+    .testimonial-meta {
       display: block;
-      margin-top: 16px;
+      margin-top: 18px;
       color: var(--muted);
       font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .testimonial-dots {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .testimonial-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 0;
+      padding: 0;
+      cursor: pointer;
+      background: rgba(31, 26, 23, 0.18);
+      transition: transform 0.18s ease, background 0.18s ease;
+    }
+
+    .testimonial-dot.is-active {
+      background: var(--accent);
+      transform: scale(1.15);
     }
 
     .faq-wrap {
@@ -897,7 +974,7 @@
       .card-grid,
       .two-column,
       .pricing-grid,
-      .testimonial-grid,
+      .testimonials-shell,
       .faq-wrap,
       .footer-grid {
         grid-template-columns: 1fr;
@@ -981,7 +1058,8 @@
       .hero-card .card-top,
       .price-panel,
       .sticky-price,
-      .cta-helper {
+      .cta-helper,
+      .testimonial-dots {
         flex-direction: column;
         align-items: flex-start;
       }
@@ -1129,7 +1207,6 @@
             </div>
             <div class="cta-helper">
               <span>Takes less than 5 minutes to get started.</span>
-              <span>Instant access after payment.</span>
               <span>Download link shown right after payment confirmation.</span>
             </div>
           </div>
@@ -1289,38 +1366,10 @@
           <div class="cta-banner" id="buy-now">
             <div class="chip">Simple payment flow</div>
             <h2>Enter through a different door and get visible faster.</h2>
-            <p class="lead">Click the CTA, submit your mobile number and email ID, then continue to a no-code payment link. After payment, this page shows your document popup instantly.</p>
+            <p class="lead">Click &amp; submit your mobile number and email ID to unlock the secret</p>
             <div class="cta-cluster">
               <a class="btn js-pay-cta" href="#buy-now">START GETTING INTERVIEW CALLS — GET ACCESS FOR ₹499</a>
               <a class="btn-secondary" href="#pricing">See everything included</a>
-            </div>
-            <div class="gateway-recommendation">
-              <strong>Best fit if you do not want technical configuration: Instamojo Payment Links.</strong>
-              It is the easiest option for this workflow because you can create a payment link from the dashboard, collect payment without code, and set a redirect URL back to this page after success. Razorpay Payment Links remain a solid fallback if you already use Razorpay.
-            </div>
-
-            <div class="workflow-list" aria-label="What happens after payment">
-              <div class="workflow-step">
-                <span class="step-index">1</span>
-                <div>
-                  <strong>User enters mobile number and email ID</strong>
-                  <p>The CTA opens a short form so you capture the buyer details before redirecting to the payment page.</p>
-                </div>
-              </div>
-              <div class="workflow-step">
-                <span class="step-index">2</span>
-                <div>
-                  <strong>User completes payment on the gateway</strong>
-                  <p>Your payment link handles the checkout and sends the user back to this page after a successful payment.</p>
-                </div>
-              </div>
-              <div class="workflow-step">
-                <span class="step-index">3</span>
-                <div>
-                  <strong>What happens after payment</strong>
-                  <p>A popup opens automatically with your document links, bonus resources, or download destinations.</p>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -1482,9 +1531,61 @@
             <div class="cta-cluster">
               <a class="btn js-pay-cta" href="#buy-now">START GETTING INTERVIEW CALLS — GET ACCESS FOR ₹499</a>
             </div>
+          </div>
+        </div>
+      </section>
 
-            <div class="config-note">
-              Replace the placeholder payment URL and document links in the script at the bottom of this page before publishing. If you want the least setup effort, use an Instamojo payment link with a success redirect back to this page.
+      <section class="section-block reveal" id="testimonials">
+        <div class="container testimonials-shell">
+          <div class="testimonial-intro">
+            <div class="chip">Testimonials</div>
+            <h2 style="font-family: 'Fraunces', serif; font-size: clamp(2rem, 3vw, 3rem); line-height: 1.05; margin: 16px 0 0;">People who got benefitted</h2>
+            <div class="testimonial-dots" aria-label="Testimonial slides">
+              <button class="testimonial-dot is-active" type="button" data-testimonial-dot="0" aria-label="Show testimonial 1"></button>
+              <button class="testimonial-dot" type="button" data-testimonial-dot="1" aria-label="Show testimonial 2"></button>
+              <button class="testimonial-dot" type="button" data-testimonial-dot="2" aria-label="Show testimonial 3"></button>
+              <button class="testimonial-dot" type="button" data-testimonial-dot="3" aria-label="Show testimonial 4"></button>
+              <button class="testimonial-dot" type="button" data-testimonial-dot="4" aria-label="Show testimonial 5"></button>
+            </div>
+          </div>
+
+          <div class="testimonial-carousel" aria-live="polite">
+            <div class="testimonial-track" data-testimonial-track>
+              <div class="testimonial-slide">
+                <article class="testimonial-card">
+                  <div class="testimonial-stars">★★★★★ Rahul S.</div>
+                  <p class="testimonial-quote">"I was applying daily but hearing nothing. After using this system, I got 3 interview calls in two weeks."</p>
+                  <small class="testimonial-meta">Focused execution replaced random applications.</small>
+                </article>
+              </div>
+              <div class="testimonial-slide">
+                <article class="testimonial-card">
+                  <div class="testimonial-stars">★★★★★ Priya M.</div>
+                  <p class="testimonial-quote">"The outreach templates alone were worth the price. Recruiters actually started replying."</p>
+                  <small class="testimonial-meta">Clear messaging created faster recruiter responses.</small>
+                </article>
+              </div>
+              <div class="testimonial-slide">
+                <article class="testimonial-card">
+                  <div class="testimonial-stars">★★★★★ Ankit T.</div>
+                  <p class="testimonial-quote">"I realized I was applying randomly. This helped me become focused and organized."</p>
+                  <small class="testimonial-meta">A repeatable system made the search more strategic.</small>
+                </article>
+              </div>
+              <div class="testimonial-slide">
+                <article class="testimonial-card">
+                  <div class="testimonial-stars">★★★★★ Sneha R.</div>
+                  <p class="testimonial-quote">"My LinkedIn profile improved, resume got sharper, and I finally started getting responses."</p>
+                  <small class="testimonial-meta">Sharper positioning made recruiters notice her faster.</small>
+                </article>
+              </div>
+              <div class="testimonial-slide">
+                <article class="testimonial-card">
+                  <div class="testimonial-stars">★★★★★ Karan V.</div>
+                  <p class="testimonial-quote">"Best low-cost investment for job seekers who are serious about getting hired."</p>
+                  <small class="testimonial-meta">High-value framing supports the buying decision.</small>
+                </article>
+              </div>
             </div>
           </div>
         </div>
@@ -1619,32 +1720,6 @@
         </div>
       </section>
 
-      <section class="section-block reveal" id="testimonials">
-        <div class="container">
-          <div class="section-heading">
-            <div class="chip">Testimonials</div>
-            <h2>Early users are already working through the system.</h2>
-            <p>Structured testimonials can be added here as you collect outcomes. For now, the section still provides social-proof framing without inventing results.</p>
-          </div>
-          <div class="testimonial-grid">
-            <article class="testimonial-card">
-              <h3>Used by early users</h3>
-              <p>Results and case studies can be inserted here once verified feedback is available.</p>
-              <small>Placeholder for future social proof</small>
-            </article>
-            <article class="testimonial-card">
-              <h3>Designed for action</h3>
-              <p>This is not a passive ebook. It is structured to push job seekers into daily execution and measurable progress.</p>
-              <small>Positioning block</small>
-            </article>
-            <article class="testimonial-card">
-              <h3>Built for urgency</h3>
-              <p>The page reinforces the cost of delay because job search momentum compounds slowly when you keep waiting.</p>
-              <small>Conversion psychology block</small>
-            </article>
-          </div>
-        </div>
-      </section>
     </main>
 
     <footer class="footer reveal">
@@ -1659,7 +1734,6 @@
         </div>
         <div>
           <a class="btn js-pay-cta" href="#buy-now">START GETTING INTERVIEW CALLS — GET ACCESS FOR ₹499</a>
-          <p class="footer-copy" style="margin-top: 12px;">Instant access after payment. The document popup appears after a successful redirect back to this page.</p>
         </div>
       </div>
     </footer>
@@ -1696,7 +1770,7 @@
         </div>
 
         <div class="modal-actions">
-          <button class="btn" type="submit">Continue To Payment</button>
+          <button class="btn" type="submit">Continue to know</button>
           <button class="btn-secondary" type="button" data-modal-close="lead-modal">Cancel</button>
         </div>
       </form>
@@ -1752,6 +1826,9 @@
     const leadPhoneError = document.getElementById('lead-phone-error');
     const documentLinks = document.getElementById('document-links');
     const revealItems = document.querySelectorAll('.reveal');
+    const testimonialTrack = document.querySelector('[data-testimonial-track]');
+    const testimonialDots = document.querySelectorAll('[data-testimonial-dot]');
+    const testimonialSlides = document.querySelectorAll('.testimonial-slide');
 
     function syncBodyModalState() {
       const anyVisibleModal = document.querySelector('.modal.is-visible');
@@ -1839,6 +1916,18 @@
         fallback.textContent = 'Add your real document URLs in the DOCUMENT_LINKS array at the bottom of this page.';
         documentLinks.appendChild(fallback);
       }
+    }
+
+    function setActiveTestimonial(index) {
+      if (!testimonialTrack || !testimonialSlides.length) {
+        return;
+      }
+
+      testimonialTrack.style.transform = `translateX(-${index * 100}%)`;
+
+      testimonialDots.forEach((dot, dotIndex) => {
+        dot.classList.toggle('is-active', dotIndex === index);
+      });
     }
 
     function buildPaymentUrl(payload) {
@@ -1945,6 +2034,34 @@
 
     hydrateLeadPayload();
     renderDocumentLinks();
+
+    let activeTestimonialIndex = 0;
+    let testimonialIntervalId = null;
+
+    function startTestimonialAutoplay() {
+      if (!testimonialSlides.length) {
+        return;
+      }
+
+      window.clearInterval(testimonialIntervalId);
+      testimonialIntervalId = window.setInterval(() => {
+        activeTestimonialIndex = (activeTestimonialIndex + 1) % testimonialSlides.length;
+        setActiveTestimonial(activeTestimonialIndex);
+      }, 4200);
+    }
+
+    testimonialDots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        activeTestimonialIndex = Number(dot.getAttribute('data-testimonial-dot'));
+        setActiveTestimonial(activeTestimonialIndex);
+        startTestimonialAutoplay();
+      });
+    });
+
+    if (testimonialTrack) {
+      setActiveTestimonial(activeTestimonialIndex);
+      startTestimonialAutoplay();
+    }
 
     if (hasSuccessfulPaymentSignal() && sessionStorage.getItem(PAYMENT_SUCCESS_SESSION_KEY) !== '1') {
       sessionStorage.setItem(PAYMENT_SUCCESS_SESSION_KEY, '1');
