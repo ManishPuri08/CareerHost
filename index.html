@@ -1,0 +1,1969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interview Call Generator System</title>
+  <meta
+    name="description"
+    content="A conversion-focused landing page for the Interview Call Generator System with a no-code payment CTA flow and a post-payment document popup."
+  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=Fraunces:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f6efe5;
+      --bg-soft: #fff9f1;
+      --panel: rgba(255, 252, 247, 0.86);
+      --panel-strong: #fffdf8;
+      --text: #1f1a17;
+      --muted: #675e56;
+      --line: rgba(31, 26, 23, 0.12);
+      --accent: #c24d2c;
+      --accent-strong: #962f13;
+      --accent-soft: #ffe1d8;
+      --success: #1d6b45;
+      --warning: #7d2915;
+      --shadow: 0 20px 60px rgba(72, 40, 24, 0.12);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --radius-sm: 14px;
+      --container: 1080px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "DM Sans", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(194, 77, 44, 0.14), transparent 32%),
+        radial-gradient(circle at top right, rgba(236, 191, 132, 0.22), transparent 28%),
+        linear-gradient(180deg, #fdf8f2 0%, var(--bg) 52%, #f3eadf 100%);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    body.modal-open {
+      overflow: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .page-shell {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-shell::before,
+    .page-shell::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(10px);
+      opacity: 0.55;
+      pointer-events: none;
+    }
+
+    .page-shell::before {
+      width: 360px;
+      height: 360px;
+      background: rgba(255, 217, 180, 0.55);
+      top: -110px;
+      right: -60px;
+    }
+
+    .page-shell::after {
+      width: 260px;
+      height: 260px;
+      background: rgba(194, 77, 44, 0.13);
+      left: -110px;
+      top: 620px;
+    }
+
+    .container {
+      width: min(var(--container), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      padding: 22px 0;
+    }
+
+    .header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 18px;
+      background: rgba(255, 253, 248, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      border-radius: 999px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 10px 30px rgba(53, 29, 17, 0.08);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent) 0%, #f29f6b 100%);
+      color: #fff;
+      font-size: 1.1rem;
+      box-shadow: 0 12px 28px rgba(194, 77, 44, 0.28);
+    }
+
+    .header-note {
+      color: var(--muted);
+      font-size: 0.95rem;
+      text-align: right;
+    }
+
+    section {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero {
+      padding: 20px 0 40px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.12fr 0.88fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .hero-copy,
+    .hero-card,
+    .card,
+    .story-card,
+    .pricing-card,
+    .faq-item,
+    .cta-banner,
+    .testimonial-card,
+    .guarantee-card {
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(20px);
+    }
+
+    .hero-copy {
+      padding: 32px;
+      border-radius: var(--radius-xl);
+      animation: rise 0.7s ease both;
+    }
+
+    .eyebrow,
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(31, 26, 23, 0.08);
+      color: var(--warning);
+      font-size: 0.94rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .hero h1,
+    .section-heading h2,
+    .cta-banner h2,
+    .pricing-copy h2,
+    .faq-heading h2 {
+      font-family: "Fraunces", serif;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      margin: 18px 0 0;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 4.3vw, 4.4rem);
+      max-width: 12ch;
+    }
+
+    .lead {
+      font-size: 1.04rem;
+      color: var(--muted);
+      margin: 18px 0 0;
+      max-width: 58ch;
+    }
+
+    .alert-copy {
+      margin: 24px 0 0;
+      padding: 18px 20px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(180deg, rgba(255, 225, 216, 0.92), rgba(255, 241, 234, 0.92));
+      border: 1px solid rgba(194, 77, 44, 0.18);
+    }
+
+    .alert-copy strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    .proof-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 26px;
+    }
+
+    .proof-strip article {
+      padding: 18px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(31, 26, 23, 0.08);
+    }
+
+    .proof-strip strong {
+      display: block;
+      font-size: 1.35rem;
+      margin-bottom: 4px;
+    }
+
+    .cta-cluster {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .btn,
+    .btn-secondary {
+      appearance: none;
+      border: 0;
+      cursor: pointer;
+      font: inherit;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 58px;
+      padding: 16px 24px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, var(--accent) 0%, #e97f48 100%);
+      color: #fff;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+      box-shadow: 0 14px 34px rgba(194, 77, 44, 0.28);
+      text-align: center;
+    }
+
+    .btn:hover,
+    .btn:focus-visible,
+    .btn-secondary:hover,
+    .btn-secondary:focus-visible {
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 58px;
+      padding: 16px 20px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(31, 26, 23, 0.1);
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .cta-helper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .hero-card {
+      border-radius: var(--radius-xl);
+      padding: 26px;
+      display: grid;
+      gap: 18px;
+      align-content: start;
+      animation: rise 0.8s ease 0.08s both;
+    }
+
+    .hero-card .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .price-badge {
+      text-align: right;
+    }
+
+    .price-badge span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .price-badge strong {
+      display: block;
+      font-size: 2.5rem;
+      line-height: 1;
+    }
+
+    .strike {
+      text-decoration: line-through;
+      opacity: 0.75;
+    }
+
+    .hero-list,
+    .bullet-list,
+    .timeline,
+    .bonus-list,
+    .trust-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .hero-list li,
+    .bullet-list li,
+    .bonus-list li,
+    .trust-list li {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 12px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .hero-list li:first-child,
+    .bullet-list li:first-child,
+    .bonus-list li:first-child,
+    .trust-list li:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .check,
+    .step-index {
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(194, 77, 44, 0.12);
+      color: var(--accent-strong);
+      font-size: 0.95rem;
+      font-weight: 800;
+      margin-top: 1px;
+    }
+
+    .trust-mini {
+      padding: 18px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(180deg, rgba(240, 249, 243, 0.95), rgba(255, 255, 255, 0.92));
+      border: 1px solid rgba(29, 107, 69, 0.16);
+      color: #1f4733;
+    }
+
+    .trust-mini strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .section-block {
+      padding: 22px 0 0;
+    }
+
+    .story-grid,
+    .two-column,
+    .pricing-grid,
+    .testimonial-grid,
+    .footer-grid {
+      display: grid;
+      gap: 24px;
+    }
+
+    .section-heading {
+      max-width: 720px;
+      margin-bottom: 26px;
+    }
+
+    .section-heading p,
+    .pricing-copy p,
+    .faq-heading p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin-top: 14px;
+    }
+
+    .story-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .story-card,
+    .card,
+    .pricing-card,
+    .testimonial-card,
+    .guarantee-card,
+    .faq-item {
+      padding: 24px;
+      border-radius: var(--radius-lg);
+    }
+
+    .workflow-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .workflow-step {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      padding: 18px 20px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(31, 26, 23, 0.08);
+    }
+
+    .workflow-step p {
+      margin: 4px 0 0;
+      color: var(--muted);
+    }
+
+    .story-card h3,
+    .card h3,
+    .pricing-card h3,
+    .testimonial-card h3,
+    .guarantee-card h3,
+    .faq-item h3 {
+      margin: 0 0 10px;
+      font-size: 1.24rem;
+      letter-spacing: -0.02em;
+    }
+
+    .story-card p,
+    .card p,
+    .pricing-card p,
+    .testimonial-card p,
+    .guarantee-card p,
+    .faq-item p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .card .label {
+      display: inline-flex;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--warning);
+      font-size: 0.88rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 16px;
+    }
+
+    .timeline li {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 16px;
+      padding: 22px;
+      background: rgba(255, 255, 255, 0.68);
+      border: 1px solid rgba(31, 26, 23, 0.08);
+      border-radius: var(--radius-md);
+    }
+
+    .timeline h3 {
+      margin: 0 0 8px;
+      font-size: 1.14rem;
+    }
+
+    .timeline p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .outcome-box {
+      margin-top: 22px;
+      padding: 26px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(145deg, rgba(255, 251, 245, 0.94), rgba(255, 238, 224, 0.92));
+      border: 1px solid rgba(194, 77, 44, 0.14);
+    }
+
+    .outcome-box h3 {
+      margin: 0 0 14px;
+      font-size: 1.3rem;
+    }
+
+    .two-column {
+      grid-template-columns: 1.04fr 0.96fr;
+      align-items: start;
+    }
+
+    .cta-banner {
+      margin-top: 26px;
+      padding: 32px;
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(135deg, rgba(255, 243, 234, 0.95) 0%, rgba(255, 252, 248, 0.95) 55%, rgba(255, 228, 209, 0.92) 100%);
+    }
+
+    .cta-banner h2 {
+      font-size: clamp(2rem, 3vw, 3rem);
+      max-width: 14ch;
+    }
+
+    .bonus-list li strong,
+    .trust-list li strong,
+    .bullet-list li strong,
+    .hero-list li strong {
+      display: block;
+      margin-bottom: 2px;
+      color: var(--text);
+    }
+
+    .pricing-grid {
+      grid-template-columns: 0.9fr 1.1fr;
+      align-items: stretch;
+    }
+
+    .pricing-copy {
+      padding: 18px 0;
+    }
+
+    .price-panel {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin: 18px 0 8px;
+    }
+
+    .price-panel strong {
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      line-height: 0.95;
+    }
+
+    .price-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid rgba(31, 26, 23, 0.08);
+      font-weight: 700;
+      color: var(--warning);
+    }
+
+    .pricing-card {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 247, 241, 0.94));
+    }
+
+    .testimonial-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .testimonial-card small {
+      display: block;
+      margin-top: 16px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .faq-wrap {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .faq-stack {
+      display: grid;
+      gap: 16px;
+    }
+
+    .guarantee-card {
+      background: linear-gradient(180deg, rgba(240, 249, 243, 0.96), rgba(255, 255, 255, 0.92));
+      border-color: rgba(29, 107, 69, 0.18);
+    }
+
+    .footer {
+      padding: 42px 0 130px;
+    }
+
+    .footer-grid {
+      grid-template-columns: 1.15fr 0.85fr;
+      align-items: start;
+      padding: 26px 0 0;
+      border-top: 1px solid rgba(31, 26, 23, 0.08);
+    }
+
+    .footer-copy {
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .sticky-cta {
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      width: min(980px, calc(100% - 20px));
+      z-index: 40;
+      padding: 12px 14px;
+      border-radius: 22px;
+      background: rgba(28, 21, 17, 0.92);
+      color: #fff;
+      box-shadow: 0 22px 50px rgba(16, 12, 9, 0.28);
+      backdrop-filter: blur(14px);
+    }
+
+    .sticky-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .sticky-inner p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.82);
+    }
+
+    .sticky-price {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      color: #ffd6c4;
+    }
+
+    .sticky-cta .btn {
+      min-height: 52px;
+      padding: 14px 20px;
+      box-shadow: none;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 90;
+      background: rgba(19, 14, 11, 0.62);
+      backdrop-filter: blur(10px);
+    }
+
+    .modal.is-visible {
+      display: flex;
+    }
+
+    .modal-card {
+      width: min(560px, 100%);
+      padding: 30px;
+      border-radius: 28px;
+      background: #fffdf9;
+      color: var(--text);
+      box-shadow: 0 30px 70px rgba(16, 12, 9, 0.3);
+      position: relative;
+      animation: pop 0.28s ease;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid rgba(31, 26, 23, 0.08);
+      background: #fff;
+      color: var(--text);
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .modal h2 {
+      font-family: "Fraunces", serif;
+      font-size: clamp(2rem, 4vw, 2.6rem);
+      line-height: 1.05;
+      margin: 12px 0 0;
+    }
+
+    .modal p {
+      margin: 14px 0 0;
+      color: var(--muted);
+    }
+
+    .capture-form {
+      display: grid;
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .form-field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .form-field label {
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .form-field input {
+      width: 100%;
+      min-height: 56px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(31, 26, 23, 0.14);
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--text);
+      font: inherit;
+      outline: none;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .form-field input:focus {
+      border-color: rgba(194, 77, 44, 0.55);
+      box-shadow: 0 0 0 4px rgba(194, 77, 44, 0.12);
+    }
+
+    .form-field input.is-invalid {
+      border-color: rgba(150, 47, 19, 0.56);
+      box-shadow: 0 0 0 4px rgba(150, 47, 19, 0.08);
+    }
+
+    .field-error {
+      min-height: 18px;
+      color: var(--warning);
+      font-size: 0.9rem;
+    }
+
+    .capture-note {
+      margin-top: 6px;
+      font-size: 0.94rem;
+      color: var(--muted);
+    }
+
+    .gateway-recommendation {
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255, 252, 247, 0.94), rgba(255, 237, 226, 0.92));
+      border: 1px solid rgba(194, 77, 44, 0.12);
+    }
+
+    .gateway-recommendation strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .links-panel {
+      display: grid;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .doc-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(31, 26, 23, 0.08);
+      font-weight: 700;
+    }
+
+    .doc-link span {
+      color: var(--muted);
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .modal-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .config-note {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(255, 225, 216, 0.55);
+      color: var(--warning);
+      font-size: 0.95rem;
+      border: 1px solid rgba(194, 77, 44, 0.12);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.45s ease, transform 0.45s ease;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pop {
+      from {
+        opacity: 0;
+        transform: scale(0.96);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .story-grid,
+      .card-grid,
+      .two-column,
+      .pricing-grid,
+      .testimonial-grid,
+      .faq-wrap,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .proof-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .header-bar,
+      .sticky-inner {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .brand {
+        align-items: flex-start;
+      }
+
+      .header-note {
+        text-align: left;
+      }
+
+      .sticky-cta {
+        bottom: 12px;
+        border-radius: 18px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .container {
+        width: min(var(--container), calc(100% - 20px));
+      }
+
+      .site-header {
+        padding: 14px 0 0;
+      }
+
+      .header-bar {
+        padding: 16px;
+        border-radius: 28px;
+      }
+
+      .hero-copy,
+      .hero-card,
+      .story-card,
+      .card,
+      .pricing-card,
+      .testimonial-card,
+      .guarantee-card,
+      .faq-item,
+      .cta-banner,
+      .modal-card {
+        padding: 22px;
+      }
+
+      .hero {
+        padding-top: 18px;
+      }
+
+      .eyebrow,
+      .chip {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+        line-height: 1.3;
+      }
+
+      .hero h1 {
+        font-size: clamp(2rem, 11vw, 3.15rem);
+        max-width: none;
+      }
+
+      .lead,
+      .section-heading p,
+      .pricing-copy p,
+      .faq-heading p {
+        font-size: 1rem;
+      }
+
+      .hero-card .card-top,
+      .price-panel,
+      .sticky-price,
+      .cta-helper {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .price-badge {
+        text-align: left;
+      }
+
+      .timeline li {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .cta-cluster,
+      .modal-actions {
+        flex-direction: column;
+      }
+
+      .btn,
+      .btn-secondary {
+        width: 100%;
+        white-space: normal;
+        line-height: 1.25;
+        text-align: center;
+      }
+
+      .sticky-cta {
+        left: 10px;
+        right: 10px;
+        bottom: 8px;
+        width: auto;
+        transform: none;
+        padding: 12px;
+      }
+
+      .sticky-inner p {
+        font-size: 0.88rem;
+      }
+
+      .footer {
+        padding-bottom: 196px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-copy,
+      .hero-card,
+      .story-card,
+      .card,
+      .pricing-card,
+      .testimonial-card,
+      .guarantee-card,
+      .faq-item,
+      .cta-banner,
+      .modal-card {
+        padding: 18px;
+      }
+
+      .brand {
+        gap: 10px;
+      }
+
+      .brand-mark {
+        width: 38px;
+        height: 38px;
+      }
+
+      .hero h1,
+      .section-heading h2,
+      .cta-banner h2,
+      .pricing-copy h2,
+      .faq-heading h2,
+      .modal h2 {
+        font-size: clamp(1.75rem, 10vw, 2.45rem);
+      }
+
+      .proof-strip strong,
+      .price-badge strong,
+      .price-panel strong {
+        font-size: 2rem;
+      }
+
+      .sticky-cta {
+        left: 8px;
+        right: 8px;
+      }
+
+      .footer {
+        padding-bottom: 212px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header">
+      <div class="container">
+        <div class="header-bar">
+          <div class="brand">
+            <div class="brand-mark">IC</div>
+            <div>
+              <div>Interview Call Generator System</div>
+              <small>Built for job seekers who are done waiting</small>
+            </div>
+          </div>
+          <div class="header-note">
+            One-time payment. Lifetime access. No subscriptions.<br>
+            Early access pricing: <strong>₹499</strong>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <div class="eyebrow">Stop getting ignored. Start getting interview calls.</div>
+            <h1>Get 3 to 5 interview calls in 21 days, even if you are getting zero responses.</h1>
+            <p class="lead">A battle-tested system for 0 to 5 year experience job seekers who are tired of sending resumes into the void and hearing nothing back.</p>
+
+            <div class="alert-copy">
+              <strong>If you are applying to jobs and not getting responses, this is exactly what you need.</strong>
+              You are likely making three invisible mistakes: poor targeting, low recruiter visibility, and no follow-up system. This fixes all three in one practical workflow.
+            </div>
+
+            <div class="proof-strip">
+              <article>
+                <strong>21 Days</strong>
+                <span>Clear action plan so you stop guessing what to do next.</span>
+              </article>
+              <article>
+                <strong>₹499</strong>
+                <span>Early access pricing before it moves back to ₹1,499.</span>
+              </article>
+              <article>
+                <strong>3 Systems</strong>
+                <span>Resume, outreach, and tracking working together instead of against you.</span>
+              </article>
+            </div>
+
+            <div class="cta-cluster">
+              <a class="btn js-pay-cta" href="#buy-now">START GETTING INTERVIEW CALLS — GET ACCESS FOR ₹499</a>
+              <a class="btn-secondary" href="#how-it-works">See how the 21-day system works</a>
+            </div>
+            <div class="cta-helper">
+              <span>Takes less than 5 minutes to get started.</span>
+              <span>Instant access after payment.</span>
+              <span>Download link shown right after payment confirmation.</span>
+            </div>
+          </div>
+
+          <aside class="hero-card">
+            <div class="card-top">
+              <div>
+                <div class="chip">What job seekers usually get wrong</div>
+                <h2 style="margin: 16px 0 0; font-size: 1.8rem; line-height: 1.1;">It is not your skills. It is your system.</h2>
+              </div>
+              <div class="price-badge">
+                <span>Early access</span>
+                <strong>₹499</strong>
+                <span class="strike">₹1,499</span>
+              </div>
+            </div>
+
+            <ul class="hero-list">
+              <li>
+                <span class="check">1</span>
+                <div>
+                  <strong>Apply where you actually have a chance</strong>
+                  Most candidates apply randomly. This shows you how to identify high-fit roles first.
+                </div>
+              </li>
+              <li>
+                <span class="check">2</span>
+                <div>
+                  <strong>Reach recruiters before everyone else</strong>
+                  Stop waiting for ATS filters to decide your future. Get visible directly.
+                </div>
+              </li>
+              <li>
+                <span class="check">3</span>
+                <div>
+                  <strong>Turn silence into responses with follow-up</strong>
+                  The right follow-up sequence keeps you on the radar without sounding desperate.
+                </div>
+              </li>
+            </ul>
+
+            <div class="trust-mini">
+              <strong>Zero-risk support</strong>
+              If you follow the system for 21 days and still do not see improvement, you can review your strategy and fix the gaps instead of staying stuck.
+            </div>
+
+            <a class="btn js-pay-cta" href="#buy-now">START GETTING INTERVIEW CALLS — GET ACCESS FOR ₹499</a>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section-block reveal" id="problem">
+        <div class="container">
+          <div class="section-heading">
+            <div class="chip">Sound familiar?</div>
+            <h2>You have applied to dozens of jobs. Maybe hundreds. And still, silence.</h2>
+            <p>Most job seekers are working hard, but they are working through the wrong sequence. That creates frustration, self-doubt, and random effort with no predictable outcome.</p>
+          </div>
+
+          <div class="story-grid">
+            <article class="story-card">
+              <h3>You spend hours on resumes and cover letters, then hear nothing back</h3>
+              <p>The effort feels serious, but if your resume positioning is weak or your targeting is off, volume only creates burnout.</p>
+            </article>
+            <article class="story-card">
+              <h3>You see entry-level roles asking for experience and do not know how to respond</h3>
+              <p>That confusion leads to hesitation, missed applications, and low confidence in your next move.</p>
+            </article>
+            <article class="story-card">
+              <h3>You are rejected before interview stage and never learn why</h3>
+              <p>Without a system, you cannot diagnose where the breakdown is happening: resume, targeting, or outreach.</p>
+            </article>
+            <article class="story-card">
+              <h3>Your friends seem to be getting interviews and you cannot see the gap</h3>
+              <p>The difference is often not talent. It is positioning, recruiter visibility, and follow-up discipline.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block reveal" id="solution">
+        <div class="container">
+          <div class="section-heading">
+            <div class="chip">Introducing the system</div>
+            <h2>The Interview Call Generator System</h2>
+            <p>A step-by-step process designed to move you from invisible applicant to shortlisted candidate in 21 days with a repeatable, measurable workflow.</p>
+          </div>
+
+          <div class="card-grid">
+            <article class="card">
+              <div class="label">Core System</div>
+              <h3>Resume Conversion Kit</h3>
+              <p>Make your resume easier to shortlist, easier to scan, and more aligned with recruiter expectations.</p>
+              <ul class="bullet-list" style="margin-top: 18px;">
+                <li>
+                  <span class="check">A</span>
+                  <div>
+                    <strong>ATS-aware structure</strong>
+                    Improve your chances of clearing early screening.
+                  </div>
+                </li>
+                <li>
+                  <span class="check">B</span>
+                  <div>
+                    <strong>Better role alignment</strong>
+                    Stop sending the same resume everywhere.
+                  </div>
+                </li>
+              </ul>
+            </article>
+
+            <article class="card">
+              <div class="label">Outreach Engine</div>
+              <h3>Message Vault and Application Tracker</h3>
+              <p>Know who to contact, what to say, and what is actually producing replies instead of guessing every day.</p>
+              <ul class="bullet-list" style="margin-top: 18px;">
+                <li>
+                  <span class="check">A</span>
+                  <div>
+                    <strong>Recruiter outreach templates</strong>
+                    Start conversations that lead to attention.
+                  </div>
+                </li>
+                <li>
+                  <span class="check">B</span>
+                  <div>
+                    <strong>Track what works</strong>
+                    Keep improving instead of repeating weak applications.
+                  </div>
+                </li>
+              </ul>
+            </article>
+
+            <article class="card">
+              <div class="label">Execution Layer</div>
+              <h3>Interview Readiness and 21-Day Action Plan</h3>
+              <p>Once callbacks start coming in, you are ready to respond quickly and perform well instead of scrambling.</p>
+              <ul class="bullet-list" style="margin-top: 18px;">
+                <li>
+                  <span class="check">A</span>
+                  <div>
+                    <strong>Daily clarity</strong>
+                    No more confusion about what to do next.
+                  </div>
+                </li>
+                <li>
+                  <span class="check">B</span>
+                  <div>
+                    <strong>Interview preparedness</strong>
+                    Be ready when the call lands.
+                  </div>
+                </li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="cta-banner" id="buy-now">
+            <div class="chip">Simple payment flow</div>
+            <h2>Enter through a different door and get visible faster.</h2>
+            <p class="lead">Click the CTA, submit your mobile number and email ID, then continue to a no-code payment link. After payment, this page shows your document popup instantly.</p>
+            <div class="cta-cluster">
+              <a class="btn js-pay-cta" href="#buy-now">START GETTING INTERVIEW CALLS — GET ACCESS FOR ₹499</a>
+              <a class="btn-secondary" href="#pricing">See everything included</a>
+            </div>
+            <div class="gateway-recommendation">
+              <strong>Best fit if you do not want technical configuration: Instamojo Payment Links.</strong>
+              It is the easiest option for this workflow because you can create a payment link from the dashboard, collect payment without code, and set a redirect URL back to this page after success. Razorpay Payment Links remain a solid fallback if you already use Razorpay.
+            </div>
+
+            <div class="workflow-list" aria-label="What happens after payment">
+              <div class="workflow-step">
+                <span class="step-index">1</span>
+                <div>
+                  <strong>User enters mobile number and email ID</strong>
+                  <p>The CTA opens a short form so you capture the buyer details before redirecting to the payment page.</p>
+                </div>
+              </div>
+              <div class="workflow-step">
+                <span class="step-index">2</span>
+                <div>
+                  <strong>User completes payment on the gateway</strong>
+                  <p>Your payment link handles the checkout and sends the user back to this page after a successful payment.</p>
+                </div>
+              </div>
+              <div class="workflow-step">
+                <span class="step-index">3</span>
+                <div>
+                  <strong>What happens after payment</strong>
+                  <p>A popup opens automatically with your document links, bonus resources, or download destinations.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block reveal" id="how-it-works">
+        <div class="container two-column">
+          <div>
+            <div class="section-heading">
+              <div class="chip">How it works</div>
+              <h2>A 21-day system that removes guesswork and builds momentum fast.</h2>
+              <p>You do not need a new degree, more random applications, or luck. You need a clearer operating system for your job search.</p>
+            </div>
+            <ol class="timeline">
+              <li>
+                <span class="step-index">1</span>
+                <div>
+                  <h3>Fix your foundation in days 1 to 5</h3>
+                  <p>Rebuild your resume and LinkedIn using templates that position you for shortlisting instead of passive rejection.</p>
+                </div>
+              </li>
+              <li>
+                <span class="step-index">2</span>
+                <div>
+                  <h3>Target smarter in days 6 to 10</h3>
+                  <p>Identify 20 high-fit roles so every application is strategic and worth your time.</p>
+                </div>
+              </li>
+              <li>
+                <span class="step-index">3</span>
+                <div>
+                  <h3>Get in the room in days 11 to 17</h3>
+                  <p>Use direct outreach to reach recruiters and hiring managers before the crowd piles in.</p>
+                </div>
+              </li>
+              <li>
+                <span class="step-index">4</span>
+                <div>
+                  <h3>Follow up like a pro in days 18 to 21</h3>
+                  <p>Stay visible without sounding needy, and turn silence into real responses.</p>
+                </div>
+              </li>
+            </ol>
+          </div>
+
+          <div>
+            <div class="outcome-box">
+              <h3>Your 21-day outcome</h3>
+              <ul class="bullet-list">
+                <li>
+                  <span class="check">&#10003;</span>
+                  <div>
+                    <strong>ATS-optimised resume</strong>
+                    Built to improve your chances of getting noticed.
+                  </div>
+                </li>
+                <li>
+                  <span class="check">&#10003;</span>
+                  <div>
+                    <strong>LinkedIn that shows up better in recruiter searches</strong>
+                    Better visibility creates more inbound opportunities.
+                  </div>
+                </li>
+                <li>
+                  <span class="check">&#10003;</span>
+                  <div>
+                    <strong>30 to 50 direct recruiter touchpoints</strong>
+                    More relevant conversations, fewer invisible applications.
+                  </div>
+                </li>
+                <li>
+                  <span class="check">&#10003;</span>
+                  <div>
+                    <strong>20 targeted role applications</strong>
+                    Higher quality effort with a real strategy behind it.
+                  </div>
+                </li>
+                <li>
+                  <span class="check">&#10003;</span>
+                  <div>
+                    <strong>A trackable process designed to generate 3 to 5 interview calls</strong>
+                    Results depend on execution, but the process removes randomness.
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <div class="cta-banner" style="margin-top: 22px;">
+              <div class="chip">Takes less than 5 minutes to get started</div>
+              <h2>One payment. Lifetime access. No subscriptions.</h2>
+              <div class="cta-cluster">
+                <a class="btn js-pay-cta" href="#buy-now">START GETTING INTERVIEW CALLS — GET ACCESS FOR ₹499</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block reveal" id="pricing">
+        <div class="container pricing-grid">
+          <div class="pricing-copy">
+            <div class="chip">Pricing</div>
+            <h2>Early access is ₹499 only.</h2>
+            <p>You are getting the full system, the templates, the action plan, and all bonuses for less than a casual dinner. This is positioned as a one-time decision, not another recurring expense.</p>
+            <div class="price-panel">
+              <strong>₹499</strong>
+              <span class="strike">₹1,499</span>
+            </div>
+            <div class="price-note">This price will not stay here for long.</div>
+          </div>
+
+          <div class="pricing-card">
+            <h3>Everything included</h3>
+            <ul class="bullet-list" style="margin-top: 18px;">
+              <li>
+                <span class="check">1</span>
+                <div>
+                  <strong>Resume Conversion Kit</strong>
+                  Improve your shortlist potential instead of blending in.
+                </div>
+              </li>
+              <li>
+                <span class="check">2</span>
+                <div>
+                  <strong>Job Targeting Blueprint</strong>
+                  Apply to fewer roles with better match quality.
+                </div>
+              </li>
+              <li>
+                <span class="check">3</span>
+                <div>
+                  <strong>Outreach Message Vault</strong>
+                  Reach recruiters and hiring managers with confidence.
+                </div>
+              </li>
+              <li>
+                <span class="check">4</span>
+                <div>
+                  <strong>Application Tracker</strong>
+                  See what is working, what is weak, and where to adjust.
+                </div>
+              </li>
+              <li>
+                <span class="check">5</span>
+                <div>
+                  <strong>Interview Readiness Checklist</strong>
+                  Be ready when you get the call.
+                </div>
+              </li>
+              <li>
+                <span class="check">6</span>
+                <div>
+                  <strong>21-Day Action Plan</strong>
+                  Maintain momentum with a simple execution roadmap.
+                </div>
+              </li>
+            </ul>
+
+            <div class="cta-cluster">
+              <a class="btn js-pay-cta" href="#buy-now">START GETTING INTERVIEW CALLS — GET ACCESS FOR ₹499</a>
+            </div>
+
+            <div class="config-note">
+              Replace the placeholder payment URL and document links in the script at the bottom of this page before publishing. If you want the least setup effort, use an Instamojo payment link with a success redirect back to this page.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block reveal" id="bonuses">
+        <div class="container two-column">
+          <article class="card">
+            <div class="chip">Bonuses included free</div>
+            <h3 style="font-size: 1.6rem; margin-top: 16px;">These bonuses solve the problems that show up right after you get the call.</h3>
+            <ul class="bonus-list" style="margin-top: 18px;">
+              <li>
+                <span class="check">+</span>
+                <div>
+                  <strong>The Tell Me About Yourself Script</strong>
+                  A simple formula to answer the most common opener with structure and confidence.
+                </div>
+              </li>
+              <li>
+                <span class="check">+</span>
+                <div>
+                  <strong>The Salary Research Cheatsheet</strong>
+                  Know your value before the HR discussion starts.
+                </div>
+              </li>
+              <li>
+                <span class="check">+</span>
+                <div>
+                  <strong>The LinkedIn Profile Audit Checklist</strong>
+                  Fifteen quick fixes that make recruiter interest more likely.
+                </div>
+              </li>
+            </ul>
+          </article>
+
+          <article class="guarantee-card">
+            <div class="chip" style="color: var(--success);">Why trust this</div>
+            <h3 style="font-size: 1.6rem; margin-top: 16px;">Built around real job search patterns, not generic motivation.</h3>
+            <p>The promise here is not magic. It is clarity, structure, and better recruiter visibility. That is what increases the odds of interview calls for serious candidates.</p>
+            <ul class="trust-list" style="margin-top: 18px;">
+              <li>
+                <span class="check">&#10003;</span>
+                <div>
+                  <strong>No subscription trap</strong>
+                  One payment, then lifetime access.
+                </div>
+              </li>
+              <li>
+                <span class="check">&#10003;</span>
+                <div>
+                  <strong>Built for 0 to 5 years experience</strong>
+                  Not recycled advice for senior professionals.
+                </div>
+              </li>
+              <li>
+                <span class="check">&#10003;</span>
+                <div>
+                  <strong>Made for action, not just reading</strong>
+                  Templates, trackers, scripts, and a timeline.
+                </div>
+              </li>
+            </ul>
+            <div class="cta-cluster">
+              <a class="btn js-pay-cta" href="#buy-now">START GETTING INTERVIEW CALLS — GET ACCESS FOR ₹499</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-block reveal" id="urgency">
+        <div class="container">
+          <div class="cta-banner">
+            <div class="chip">This price will not last</div>
+            <h2>Every day you wait is another week without interview calls.</h2>
+            <p class="lead">If you are serious about your job search, this is the moment to act. Early access pricing ends soon and moves back to ₹1,499 once the offer closes.</p>
+            <ul class="bullet-list" style="margin-top: 18px; max-width: 720px;">
+              <li>
+                <span class="check">&#9888;</span>
+                <div>
+                  <strong>Early access pricing ends soon</strong>
+                  Delaying now only increases the cost later.
+                </div>
+              </li>
+              <li>
+                <span class="check">&#9888;</span>
+                <div>
+                  <strong>The cost of inaction is hidden but real</strong>
+                  Every week without interviews pushes your job switch further away.
+                </div>
+              </li>
+            </ul>
+            <div class="cta-cluster">
+              <a class="btn js-pay-cta" href="#buy-now">START GETTING INTERVIEW CALLS — GET ACCESS FOR ₹499</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block reveal" id="faq">
+        <div class="container faq-wrap">
+          <div class="faq-heading">
+            <div class="chip">FAQ</div>
+            <h2>Questions people ask before buying</h2>
+            <p>The hesitation is normal. These are the most common concerns this page is designed to answer before you delay another week.</p>
+          </div>
+          <div class="faq-stack">
+            <article class="faq-item">
+              <h3>I am a fresher with no experience. Will this work for me?</h3>
+              <p>Yes. The system is specifically positioned for 0 to 5 year experience candidates and accounts for limited work history.</p>
+            </article>
+            <article class="faq-item">
+              <h3>I have tried templates before and they did not work. What is different here?</h3>
+              <p>Templates alone rarely change outcomes. This combines positioning, targeting, direct outreach, tracking, and follow-up into one system.</p>
+            </article>
+            <article class="faq-item">
+              <h3>How much time do I need each day?</h3>
+              <p>About 45 to 60 minutes per day is enough to follow the 21-day plan consistently.</p>
+            </article>
+            <article class="faq-item">
+              <h3>What if I do not get 3 to 5 interview calls in 21 days?</h3>
+              <p>The process improves your chances when you execute it properly, but results still depend on industry, effort, and how well you implement the steps.</p>
+            </article>
+            <article class="faq-item">
+              <h3>Do I need to pay anything extra later?</h3>
+              <p>No. This is a one-time payment of ₹499 for lifetime access to the current package.</p>
+            </article>
+            <article class="faq-item">
+              <h3>Is this only for specific industries?</h3>
+              <p>No. The process works across IT, marketing, finance, operations, and other industries, with light field-specific tweaks where needed.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block reveal" id="testimonials">
+        <div class="container">
+          <div class="section-heading">
+            <div class="chip">Testimonials</div>
+            <h2>Early users are already working through the system.</h2>
+            <p>Structured testimonials can be added here as you collect outcomes. For now, the section still provides social-proof framing without inventing results.</p>
+          </div>
+          <div class="testimonial-grid">
+            <article class="testimonial-card">
+              <h3>Used by early users</h3>
+              <p>Results and case studies can be inserted here once verified feedback is available.</p>
+              <small>Placeholder for future social proof</small>
+            </article>
+            <article class="testimonial-card">
+              <h3>Designed for action</h3>
+              <p>This is not a passive ebook. It is structured to push job seekers into daily execution and measurable progress.</p>
+              <small>Positioning block</small>
+            </article>
+            <article class="testimonial-card">
+              <h3>Built for urgency</h3>
+              <p>The page reinforces the cost of delay because job search momentum compounds slowly when you keep waiting.</p>
+              <small>Conversion psychology block</small>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer reveal">
+      <div class="container footer-grid">
+        <div>
+          <div class="brand" style="margin-bottom: 14px;">
+            <div class="brand-mark">IC</div>
+            <div>Interview Call Generator System</div>
+          </div>
+          <p class="footer-copy">This is not about applying more. It is about applying smarter.</p>
+          <p class="footer-copy">Copyright 2026 Interview Call Generator System. Built for job seekers who are done waiting.</p>
+        </div>
+        <div>
+          <a class="btn js-pay-cta" href="#buy-now">START GETTING INTERVIEW CALLS — GET ACCESS FOR ₹499</a>
+          <p class="footer-copy" style="margin-top: 12px;">Instant access after payment. The document popup appears after a successful redirect back to this page.</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <div class="sticky-cta">
+    <div class="sticky-inner container" style="width: 100%;">
+      <div>
+        <div class="sticky-price">Early Access: ₹499 <span class="strike" style="color: rgba(255,255,255,0.65);">₹1,499</span></div>
+        <p>Stop sending resumes into the void. Get the full system and instant access today.</p>
+      </div>
+      <a class="btn js-pay-cta" href="#buy-now">START GETTING INTERVIEW CALLS — GET ACCESS FOR ₹499</a>
+    </div>
+  </div>
+
+  <div class="modal" id="lead-modal" aria-hidden="true" role="dialog" aria-labelledby="lead-modal-title">
+    <div class="modal-card">
+      <button class="modal-close" type="button" data-modal-close="lead-modal" aria-label="Close popup">&times;</button>
+      <div class="chip">Almost there</div>
+      <h2 id="lead-modal-title">Enter your mobile number and email ID to continue to payment.</h2>
+      <p>This captures the buyer details first, then redirects the user to the payment gateway with the same information carried forward where supported.</p>
+
+      <form class="capture-form" id="lead-form" novalidate>
+        <div class="form-field">
+          <label for="lead-email">Email ID</label>
+          <input id="lead-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required>
+          <div class="field-error" id="lead-email-error" aria-live="polite"></div>
+        </div>
+
+        <div class="form-field">
+          <label for="lead-phone">Mobile number</label>
+          <input id="lead-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="9876543210" required>
+          <div class="field-error" id="lead-phone-error" aria-live="polite"></div>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn" type="submit">Continue To Payment</button>
+          <button class="btn-secondary" type="button" data-modal-close="lead-modal">Cancel</button>
+        </div>
+      </form>
+
+      <p class="capture-note">Recommended gateway: Instamojo payment links for the least setup. Use Razorpay payment links only if you already have it configured.</p>
+    </div>
+  </div>
+
+  <div class="modal" id="download-modal" aria-hidden="true" role="dialog" aria-labelledby="download-modal-title">
+    <div class="modal-card">
+      <button class="modal-close" type="button" data-modal-close="download-modal" aria-label="Close popup">&times;</button>
+      <div class="chip" style="color: var(--success);">Payment confirmed</div>
+      <h2 id="download-modal-title">Your documents are ready.</h2>
+      <p>Payment is complete. Use the links below to open each document or resource you want to share after checkout.</p>
+      <div class="links-panel" id="document-links"></div>
+      <div class="modal-actions">
+        <button class="btn-secondary" type="button" data-modal-close="download-modal">Close popup</button>
+      </div>
+      <div class="config-note">Recommended setup: configure your payment link success redirect to this page URL with <strong>?payment=success</strong>. The popup opens automatically after the buyer returns.</div>
+    </div>
+  </div>
+
+  <script>
+    const PAYMENT_URL = "https://www.instamojo.com/@YOUR_PAYMENT_LINK";
+    const DOCUMENT_LINKS = [
+      {
+        title: "Open Main Document",
+        caption: "Replace with your primary Google Drive, PDF, or Notion link.",
+        url: "https://drive.google.com/drive/folders/YOUR_MAIN_DOCUMENT_LINK"
+      },
+      {
+        title: "Open Bonus Resource",
+        caption: "Replace with your second document or bonus resource.",
+        url: "https://drive.google.com/drive/folders/YOUR_BONUS_RESOURCE_LINK"
+      },
+      {
+        title: "Open Templates Pack",
+        caption: "Replace with your templates, tracker, or extra files.",
+        url: "https://drive.google.com/drive/folders/YOUR_TEMPLATES_LINK"
+      }
+    ];
+    const PAYMENT_SUCCESS_SESSION_KEY = 'payment-success-modal-shown';
+    const LEAD_CAPTURE_SESSION_KEY = 'lead-capture-details';
+
+    const payButtons = document.querySelectorAll('.js-pay-cta');
+    const leadModal = document.getElementById('lead-modal');
+    const downloadModal = document.getElementById('download-modal');
+    const modalCloseButtons = document.querySelectorAll('[data-modal-close]');
+    const leadForm = document.getElementById('lead-form');
+    const leadEmailInput = document.getElementById('lead-email');
+    const leadPhoneInput = document.getElementById('lead-phone');
+    const leadEmailError = document.getElementById('lead-email-error');
+    const leadPhoneError = document.getElementById('lead-phone-error');
+    const documentLinks = document.getElementById('document-links');
+    const revealItems = document.querySelectorAll('.reveal');
+
+    function syncBodyModalState() {
+      const anyVisibleModal = document.querySelector('.modal.is-visible');
+      document.body.classList.toggle('modal-open', Boolean(anyVisibleModal));
+    }
+
+    function openModal(modalElement) {
+      modalElement.classList.add('is-visible');
+      modalElement.setAttribute('aria-hidden', 'false');
+      syncBodyModalState();
+    }
+
+    function closeModal(modalElement) {
+      modalElement.classList.remove('is-visible');
+      modalElement.setAttribute('aria-hidden', 'true');
+      syncBodyModalState();
+    }
+
+    function isPlaceholderUrl(url) {
+      return url.includes('YOUR_PAYMENT_LINK') || url.includes('YOUR_');
+    }
+
+    function getLeadPayload() {
+      return {
+        email: leadEmailInput.value.trim(),
+        phone: leadPhoneInput.value.trim()
+      };
+    }
+
+    function setFieldError(input, errorElement, message) {
+      input.classList.toggle('is-invalid', Boolean(message));
+      errorElement.textContent = message;
+    }
+
+    function validateLeadPayload(payload) {
+      const emailIsValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email);
+      const normalisedPhone = payload.phone.replace(/\D/g, '');
+      const phoneIsValid = /^\d{10,15}$/.test(normalisedPhone);
+
+      setFieldError(leadEmailInput, leadEmailError, emailIsValid ? '' : 'Enter a valid email address.');
+      setFieldError(leadPhoneInput, leadPhoneError, phoneIsValid ? '' : 'Enter a valid mobile number with 10 to 15 digits.');
+
+      return {
+        isValid: emailIsValid && phoneIsValid,
+        phone: normalisedPhone
+      };
+    }
+
+    function persistLeadPayload(payload) {
+      sessionStorage.setItem(LEAD_CAPTURE_SESSION_KEY, JSON.stringify(payload));
+    }
+
+    function hydrateLeadPayload() {
+      const savedValue = sessionStorage.getItem(LEAD_CAPTURE_SESSION_KEY);
+
+      if (!savedValue) {
+        return;
+      }
+
+      try {
+        const savedPayload = JSON.parse(savedValue);
+        leadEmailInput.value = savedPayload.email || '';
+        leadPhoneInput.value = savedPayload.phone || '';
+      } catch {
+        sessionStorage.removeItem(LEAD_CAPTURE_SESSION_KEY);
+      }
+    }
+
+    function renderDocumentLinks() {
+      documentLinks.innerHTML = '';
+
+      DOCUMENT_LINKS.filter((item) => !isPlaceholderUrl(item.url)).forEach((item) => {
+        const link = document.createElement('a');
+        link.className = 'doc-link';
+        link.href = item.url;
+        link.target = '_blank';
+        link.rel = 'noreferrer';
+        link.innerHTML = `<div>${item.title}<br><span>${item.caption}</span></div><strong>Open</strong>`;
+        documentLinks.appendChild(link);
+      });
+
+      if (!documentLinks.children.length) {
+        const fallback = document.createElement('div');
+        fallback.className = 'config-note';
+        fallback.textContent = 'Add your real document URLs in the DOCUMENT_LINKS array at the bottom of this page.';
+        documentLinks.appendChild(fallback);
+      }
+    }
+
+    function buildPaymentUrl(payload) {
+      const url = new URL(PAYMENT_URL, window.location.href);
+      url.searchParams.set('prefill[email]', payload.email);
+      url.searchParams.set('prefill[contact]', payload.phone);
+      url.searchParams.set('email', payload.email);
+      url.searchParams.set('phone', payload.phone);
+      return url.toString();
+    }
+
+    function clearPaymentQueryParams() {
+      const url = new URL(window.location.href);
+      ['payment', 'status', 'payment_status', 'razorpay_payment_link_status', 'download'].forEach((key) => {
+        url.searchParams.delete(key);
+      });
+
+      if (window.location.href !== url.toString()) {
+        window.history.replaceState({}, document.title, url.toString());
+      }
+    }
+
+    function hasSuccessfulPaymentSignal() {
+      const params = new URLSearchParams(window.location.search);
+      const payment = (params.get('payment') || '').toLowerCase();
+      const status = (params.get('status') || '').toLowerCase();
+      const paymentStatus = (params.get('payment_status') || '').toLowerCase();
+      const razorpayStatus = (params.get('razorpay_payment_link_status') || '').toLowerCase();
+      const download = params.get('download');
+
+      return [payment, status, paymentStatus, razorpayStatus].includes('success')
+        || [payment, status, paymentStatus, razorpayStatus].includes('paid')
+        || download === '1';
+    }
+
+    payButtons.forEach((button) => {
+      button.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        openModal(leadModal);
+      });
+    });
+
+    leadForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const payload = getLeadPayload();
+      const validation = validateLeadPayload(payload);
+
+      if (!validation.isValid) {
+        return;
+      }
+
+      const sanitizedPayload = {
+        email: payload.email,
+        phone: validation.phone
+      };
+
+      persistLeadPayload(sanitizedPayload);
+
+      if (isPlaceholderUrl(PAYMENT_URL)) {
+        window.alert('Replace PAYMENT_URL in the script with your live payment link before publishing.');
+        return;
+      }
+
+      closeModal(leadModal);
+      window.location.href = buildPaymentUrl(sanitizedPayload);
+    });
+
+    modalCloseButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const modalId = button.getAttribute('data-modal-close');
+        const modalElement = document.getElementById(modalId);
+
+        if (modalElement) {
+          closeModal(modalElement);
+        }
+      });
+    });
+
+    [leadModal, downloadModal].forEach((modalElement) => {
+      modalElement.addEventListener('click', (event) => {
+        if (event.target === modalElement) {
+          closeModal(modalElement);
+        }
+      });
+    });
+
+    [leadEmailInput, leadPhoneInput].forEach((input) => {
+      input.addEventListener('input', () => {
+        validateLeadPayload(getLeadPayload());
+      });
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        [leadModal, downloadModal].forEach((modalElement) => {
+          if (modalElement.classList.contains('is-visible')) {
+            closeModal(modalElement);
+          }
+        });
+      }
+    });
+
+    hydrateLeadPayload();
+    renderDocumentLinks();
+
+    if (hasSuccessfulPaymentSignal() && sessionStorage.getItem(PAYMENT_SUCCESS_SESSION_KEY) !== '1') {
+      sessionStorage.setItem(PAYMENT_SUCCESS_SESSION_KEY, '1');
+      openModal(downloadModal);
+      clearPaymentQueryParams();
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.18
+    });
+
+    revealItems.forEach((item) => observer.observe(item));
+  </script>
+</body>
+</html>
